@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jawa b dulu bozzz!!</title>
+    <style>
+        body {
+            background: url('https://source.unsplash.com/1600x900/?ocean-galaxy') no-repeat center center/cover;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .container {
+            background: rgba(138, 202, 248, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: inline-block;
+            position: relative;
+        }
+        h1 {
+            color: #0e6da0;
+        }
+        .message {
+            display: none;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .surprise-btn {
+            background: #5ba1cc;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .confetti {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .question-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .question {
+            margin-bottom: 10px;
+        }
+        .photo-gallery {
+            display: none;
+            margin-top: 20px;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        .photo-gallery img {
+            width: 200px;
+            height: auto;
+            margin: 10px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <canvas class="confetti" id="confetti"></canvas>
+    <div class="container">
+        <h1>jawa b dulu lahh</h1>
+        <div class="song-list">
+            <h2>pencet lagu nyee</h2>
+            <a href="https://open.spotify.com/track/4PwWESSlTwzvw9B7bmtTLS?si=d20b2ca893f641bb" target="_blank" style="color: white; font-size: 18px; text-decoration: underline;">pencet sinihh</a>
+        </div>
+        
+        <button class="surprise-btn" onclick="startQuiz()" id="surprise-btn">lanjuttt</button>
+        
+        <div class="question-container" id="question-container">
+            <h2>Jawab pertanyaan ini dulu ya!</h2>
+            <div class="question">1. first impression ke gue? <input type="text" id="answer1"></div>
+            <div class="question">2. asbun apa yang selalu gue keluarin <input type="text" id="answer2"></div>
+            <div class="question">3. lagu apa yang lu taro ke gue? <input type="text" id="answer3"></div>
+            <div class="question">4. dialog pertama kali lu bercanda ke gue? <input type="text" id="answer4"></div>
+            <div class="question">5. tebak ini web apa.... <input type="text" id="answer5"></div>
+            <button class="surprise-btn" onclick="checkAnswers()" id="submit-btn" disabled>kirim Jawaban</button>
+        </div>
+        
+        <div class="message" id="message-container">
+            <p>hai, happy level up ya. I've run out of words to say, but thank you for surviving in this cruel world, thank you for being such a great fwieend 🧚🏻‍♀ and thank you for always hearing mee up, I feel so lucky to have you as my friend. Hope your birthday is as special as you are. May all of your dreams come true. Let's make a wish for u b'day! atau mau gue duluan? kalo wish gue untuk lu, semoga semesta selalu menuntun, melindungi dan ngasih lu kebahagiaan yang tak ada habisnya! maaf karena gue gak bisa ngerayain hari bahagia lu , tapi asal lu tau, gue ngucapin ini tulus dari hati. Jaga kesehatan lu ya? jangan pernah nyakitin diri lu sendiri, karena kamu itu berharga. ubur ubur ikan lele habede lee</p>
+            <div class="photo-gallery" id="photo-gallery">
+                <img src="download (3).jpg" alt="Foto 1">
+                <img src="silid photo.jpg" alt="Foto 2">
+                <img src="Wahyu ngamuk😅☝️.jpg" alt="Foto 3">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function startQuiz() {
+            document.getElementById('question-container').style.display = 'block';
+            document.getElementById('surprise-btn').style.display = 'none';
+            document.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', checkInputs);
+            });
+        }
+
+        function checkInputs() {
+            let allAnswered = true;
+            document.querySelectorAll('input').forEach(input => {
+                if (input.value.trim() === '') {
+                    allAnswered = false;
+                }
+            });
+            document.getElementById('submit-btn').disabled = !allAnswered;
+        }
+
+        function checkAnswers() {
+            document.getElementById('question-container').style.display = 'none';
+            document.getElementById('message-container').style.display = 'block';
+            startConfetti();
+            showPhotos();
+        }
+
+        function showPhotos() {
+            const photoGallery = document.getElementById('photo-gallery');
+            photoGallery.style.display = 'block';
+            setTimeout(() => {
+                photoGallery.style.opacity = '1';
+            }, 200);
+        }
+
+        function startConfetti() {
+            const canvas = document.getElementById("confetti");
+            const ctx = canvas.getContext("2d");
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            let confetti = [];
+            for (let i = 0; i < 100; i++) {
+                confetti.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    size: Math.random() * 5 + 2,
+                    speed: Math.random() * 3 + 1,
+                    color: `hsl(${Math.random() * 360}, 100%, 50%)`
+                });
+            }
+            function update() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confetti.forEach((c, i) => {
+                    c.y += c.speed;
+                    if (c.y > canvas.height) confetti[i].y = -10;
+                    ctx.fillStyle = c.color;
+                    ctx.beginPath();
+                    ctx.arc(c.x, c.y, c.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+    </script>
+</body>
+</html>
